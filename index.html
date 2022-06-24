@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./resources/css/style.css" rel="stylesheet"/>
+    <script src="./main.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Rock Paper Scissors</h1>
+    </header>
+    <section class="startScreen">
+        <h1>How to Play</h1>
+        <h3>You play as the blue haired human and your enemy is the red robot. Each round, you click on one of the Choices under your character to chose wether you want to 
+            use Rock, Paper, or Scissors this round. The robot will make his choice simultaniously with you. For each win, the Progress bar at the top will move one step 
+            towards the looser. The game is over, when the bar is entirely blue or red, indicating the color of the winner.
+        </h3>
+        <button id="startButton">Press to Play</button>
+    </section>
+    <div class="hide battleScreen">
+        <form>
+            <input type="range" name="progress" id="progress" min="0" max="4" step="1" value="2">
+        </form>
+    </div>
+    <div id="battleSection" class="hide battleScreen">
+        <div class="competitor">
+            <h2>Player</h2>
+            <div class="image">
+                <img src="./resources/images/playerIconSnip.png"/>
+            </div>
+        </div>
+        <div class="text">
+            <h1 id="currentRound">Round 1</h1>
+            <h1 id="vs">VS</h1>
+            <div class="roundResultScreen hide">
+                <h1 class="roundResultPhrase">Rock beats Scissors</h1>
+                <h1 class="roundWinner">Player wins the Round</h1>
+            </div>
+        </div>
+        <div class="competitor">
+            <h2>Bot</h2>
+            <div class="image" id="bot">
+                <!--<img src="./resources/images/botIconSnip.png"/>-->
+            </div>
+        </div>
+    </div>
+    <div class="hide choices battleScreen">
+        <div class="playerChoice">
+            <button type="button" id="playerRock">Rock</button>
+            <button type="button" id="playerPaper">Paper</button>
+            <button type="button" id="playerScissors">Scissors</button>
+        </div>
+        <div class="botChoice">
+            <button type="button" id="botRock">?</button>
+            <button type="button" id="botPaper">?</button>
+            <button type="button" id="botScissors">?</button>
+        </div>
+    </div>
+    <h2 class="hide battleScreen">Game History</h2>
+    <div class="hide history battleScreen">
+        <div class="round">
+            <p>Round X</p>
+            <div class="choices">
+                <ul>
+                    <li class="playerHistory">Rock</li>
+                    <li class="botHistory">Rock</li>
+                </ul>
+            </div>
+            <p>Player Won</p>
+        </div>
+        <div class="round">
+            <p>Round X</p>
+            <div class="choices">
+                <ul>
+                    <li class="playerHistory">Rock</li>
+                    <li class="botHistory">Rock</li>
+                </ul>
+            </div>
+            <p>Player Won</p>
+        </div>
+        <div class="round">
+            <p>Round X</p>
+            <div class="choices">
+                <ul>
+                    <li class="playerHistory">Rock</li>
+                    <li class="botHistory">Rock</li>
+                </ul>
+            </div>
+            <p>Player Won</p>
+        </div>
+        <div class="round">
+            <p>Round X</p>
+            <div class="choices">
+                <ul>
+                    <li class="playerHistory">Rock</li>
+                    <li class="botHistory">Rock</li>
+                </ul>
+            </div>
+            <p>Player Won</p>
+        </div>
+    </div>
+</body>
+</html>

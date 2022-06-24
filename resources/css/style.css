@@ -1,0 +1,219 @@
+/*Initial styling for hiding elements*/
+.hide {
+    display:none !important;
+}
+
+.battleScreen {
+    opacity: 0;
+    transform: scale(0);
+    transition: 2s ease opacity, 2s transform;
+}
+
+section {
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    opacity: 1;
+    transform: scale(1);
+    transition: .6s ease opacity, .6s ease transform;
+}
+
+section button {
+    display:block;
+    margin:auto;
+}
+
+body {
+    background-color: rgba(30, 31, 38, 1);
+}
+
+header {
+    text-align: center;
+}
+
+h1 {
+    color:white;
+}
+
+h2 {
+    text-align: center;
+    color:white;
+}
+
+h3 {
+    text-align: center;
+    color:white;
+}
+
+p {
+    color:white;
+}
+
+
+/*Slider styling*/
+input {
+    display:block;
+    margin: auto;
+    width:70%;
+    height:10px;
+    background-color: rgba(30, 31, 38, 1);
+}
+
+/*chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type='range'] {
+      overflow: hidden;
+      width: 70%;
+      -webkit-appearance: none;
+      background-color: #e01515;
+    }
+    
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 10px;
+      -webkit-appearance: none;
+      color: #3d79fa;
+      margin-top: -1px;
+    }
+    
+    input[type='range']::-webkit-slider-thumb {
+      width: 4px;
+      -webkit-appearance: none;
+      height: 10px;
+      background: #434343;
+      box-shadow: -1000px 0 0 1000px #3d79fa;
+    }
+}
+
+/* Firefox*/
+input[type="range"]::-moz-range-progress {
+    background-color: #3d79fa; 
+    height: 10px;
+    margin-top: -1px;
+  }
+  input[type="range"]::-moz-range-track {  
+    background-color: #e01515;
+    margin-top: -1px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 8px;
+    background: #434343;
+  }
+
+  /* IE*/
+  input[type="range"]::-ms-fill-lower {
+    background-color: #3d79fa; 
+    height: 10px;
+    margin-top: -1px;
+  }
+  input[type="range"]::-ms-fill-upper {  
+    background-color: #e01515;
+    margin-top: -1px;
+  }
+
+/*Current Round Section Styling*/
+#battleSection {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin: auto auto;
+  
+}
+
+.text {
+    text-align:center;
+}
+
+#currentRound {
+    margin-top:45px;
+}
+
+#vs {
+    margin-top: 120px;
+}
+
+.roundResultScreen {
+    margin-top: 120px;
+    opacity: 0;
+    transform: scale(0);
+    transition: 2s ease opacity, 2s transform;
+}
+
+.choices {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: auto auto;
+  
+}
+
+.playerChoice {
+    margin-left: 106px;
+    width: 310px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.botChoice {
+    margin-right: 106px;
+    width: 20%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#bot {
+    background-image: url(../images/botIconSnip.PNG);
+    width: 250px;
+    height: 312px;
+    background-size: cover;
+    background-position: center;
+  
+}
+
+button {
+    width: 100px;
+    height: 40px;
+}
+
+#playerRock,#playerPaper,#playerScissors,#botRock,#botPaper,#botScissors {
+    position:relative;
+    left:0;
+    bottom:0;
+    transition: left 1s ease-in-out, bottom 1s ease-in-out 0.5s;
+}
+
+.competitor {
+    text-align: center;
+}
+
+/*History Section Styling*/
+.round .choices {
+    width: auto;
+}
+
+.history {
+    display:flex;
+    flex-wrap: wrap;
+    width:90%;
+    margin:auto;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+li {
+    display:inline;color:white;
+}
+
+ul {
+    padding-left:0px;
+    margin:auto;
+}
+
+.round {
+    width: 10%;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+#botRock,#botPaper,#botScissors,input {
+    pointer-events: none;
+}
