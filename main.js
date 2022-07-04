@@ -33,6 +33,7 @@ buttonStart.addEventListener('click',hideStartScreen);
 
 const botChoices = ['Rock','Paper','Scissors'];
 let botChoice = '';
+
 function determineBotChoice() {
     botChoice = botChoices[Math.floor(Math.random()*3)];
 };
@@ -115,6 +116,11 @@ function hideBotButtons(choiceID) {
     };
 }
 
+function showBotChoice(choiceID) {
+    let choice = document.getElementById(`${choiceID}`);
+    choice.innerText = botChoice;
+}
+
 function playRound(event) {
     determineBotChoice();
     let playerChoiceID = event.target.id;
@@ -122,6 +128,7 @@ function playRound(event) {
     hideBotButtons(`bot${botChoice}`);
     movePlayerChoice(playerChoiceID);
     moveBotChoice(`bot${botChoice}`);
+    window.setTimeout(showBotChoice,2000,`bot${botChoice}`);
 }
 
 let buttonRock = document.getElementById('playerRock');
