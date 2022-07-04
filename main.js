@@ -82,18 +82,18 @@ function hideAndDisablePlayerButtons(choiceID) {
     switch (choiceID) {
         case 'playerRock':
             choice.style.pointerEvents = 'none';
-            document.querySelector('#playerPaper').classList.add('hide');
-            document.querySelector('#playerScissors').classList.add('hide');
+            document.querySelector('#playerPaper').style.visibility = 'hidden';
+            document.querySelector('#playerScissors').style.visibility = 'hidden';
             break;
         case 'playerPaper':
             choice.style.pointerEvents = 'none';
-            document.querySelector('#playerRock').classList.add('hide');
-            document.querySelector('#playerScissors').classList.add('hide');
+            document.querySelector('#playerRock').style.visibility = 'hidden';
+            document.querySelector('#playerScissors').style.visibility = 'hidden';
             break;
         case 'playerScissors':
             choice.style.pointerEvents = 'none';
-            document.querySelector('#playerPaper').classList.add('hide');
-            document.querySelector('#playerRock').classList.add('hide');
+            document.querySelector('#playerPaper').style.visibility = 'hidden';
+            document.querySelector('#playerRock').style.visibility = 'hidden';
             break;
     };
 }
@@ -101,16 +101,16 @@ function hideAndDisablePlayerButtons(choiceID) {
 function hideBotButtons(choiceID) {
     switch (choiceID) {
         case 'botRock':
-            document.querySelector('#botPaper').classList.add('hide');
-            document.querySelector('#botScissors').classList.add('hide');
+            document.querySelector('#botPaper').style.visibility = 'hidden';
+            document.querySelector('#botScissors').style.visibility = 'hidden';
             break;
         case 'botPaper':
-            document.querySelector('#botRock').classList.add('hide');
-            document.querySelector('#botScissors').classList.add('hide');
+            document.querySelector('#botRock').style.visibility = 'hidden';
+            document.querySelector('#botScissors').style.visibility = 'hidden';
             break;
         case 'botScissors':
-            document.querySelector('#botPaper').classList.add('hide');
-            document.querySelector('#botRock').classList.add('hide');
+            document.querySelector('#botPaper').style.visibility = 'hidden';
+            document.querySelector('#botRock').style.visibility = 'hidden';
             break;
     };
 }
@@ -129,6 +129,8 @@ let buttonPaper = document.getElementById('playerPaper');
 let buttonScissors = document.getElementById('playerScissors');
 
 buttonRock.addEventListener('click',playRound);
+buttonPaper.addEventListener('click',playRound);
+buttonScissors.addEventListener('click',playRound);
 
 function showRoundResult() {
     let roundResultScreen = document.querySelector('.roundResultScreen');
