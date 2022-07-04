@@ -38,61 +38,58 @@ function determineBotChoice() {
     botChoice = botChoices[Math.floor(Math.random()*3)];
 };
 
-function movePlayerChoice(choiceID) {
-    let choice = document.querySelector(`#${choiceID}`);
+function movePlayerChoice(choiceID,choiceElement) {
     switch (choiceID) {
         case 'playerRock' :
-            choice.style.left = '380px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '380px';
+            choiceElement.style.bottom = '180px';
             break;
         case 'playerPaper' :
-            choice.style.left = '275px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '275px';
+            choiceElement.style.bottom = '180px';
             break;
         case 'playerScissors' :
-            choice.style.left = '170px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '170px';
+            choiceElement.style.bottom = '180px';
             break;
         default:
             break;
     };
 }
 
-function moveBotChoice(choiceID) {
-    let choice = document.querySelector(`#${choiceID}`);
+function moveBotChoice(choiceID,choiceElement) {
     switch (choiceID) {
         case 'botScissors' :
-            choice.style.left = '-380px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '-380px';
+            choiceElement.style.bottom = '180px';
             break;
         case 'botPaper' :
-            choice.style.left = '-275px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '-275px';
+            choiceElement.style.bottom = '180px';
             break;
         case 'botRock' :
-            choice.style.left = '-170px';
-            choice.style.bottom = '180px';
+            choiceElement.style.left = '-170px';
+            choiceElement.style.bottom = '180px';
             break;
         default:
             break;
     };
 }
 
-function hideAndDisablePlayerButtons(choiceID) {
-    let choice = document.querySelector(`#${choiceID}`);
+function hideAndDisablePlayerButtons(choiceID, choiceElement) {
     switch (choiceID) {
         case 'playerRock':
-            choice.style.pointerEvents = 'none';
+            choiceElement.style.pointerEvents = 'none';
             document.querySelector('#playerPaper').style.visibility = 'hidden';
             document.querySelector('#playerScissors').style.visibility = 'hidden';
             break;
         case 'playerPaper':
-            choice.style.pointerEvents = 'none';
+            choiceElement.style.pointerEvents = 'none';
             document.querySelector('#playerRock').style.visibility = 'hidden';
             document.querySelector('#playerScissors').style.visibility = 'hidden';
             break;
         case 'playerScissors':
-            choice.style.pointerEvents = 'none';
+            choiceElement.style.pointerEvents = 'none';
             document.querySelector('#playerPaper').style.visibility = 'hidden';
             document.querySelector('#playerRock').style.visibility = 'hidden';
             break;
@@ -116,19 +113,98 @@ function hideBotButtons(choiceID) {
     };
 }
 
-function showBotChoice(choiceID) {
-    let choice = document.getElementById(`${choiceID}`);
-    choice.innerText = botChoice;
+function showBotChoice(choiceElement) {
+    choiceElement.innerText = botChoice;
+}
+
+function expressWinningChoice(winningChoice,loosingChoice) {
+    winningChoice.style.backgroundColor = 'green';
+    loosingChoice.style.backgroundColor = 'grey';
+}
+
+function expressDraw(playerChoiceElement,botChoiceElement) {
+    playerChoiceElement.style.backgroundColor = 'grey';
+    botChoiceElement.style.backgroundColor = 'grey';
+}
+
+function writeResultScreen(phrase,winner) {
+    console.log(typeof phrase);
+    if (typeof phrase !== 'undefined') {
+        document.querySelector('.roundResultPhrase').innerText = phrase;
+        document.querySelector('.roundWinner').innerText = `${winner} wins the Round`;
+    } else {
+        console.log('enters else statement')
+        document.querySelector('.roundResultPhrase').innerText = `draws with`;
+        document.querySelector('.roundWinner').innerText = 'Draw!';
+    }
+}
+
+function determineWinner(playerChoiceElement, botChoiceElement) {
+    switch (playerChoiceElement.innerText) {
+        case 'Rock':
+            if (botChoice === 'Paper') {
+                expressWinningChoice(botChoiceElement,playerChoiceElement);
+                writeResultScreen('gets wraped by','Bot');
+                slider.value--;
+            } else if (botChoice === 'Scissors') {
+                expressWinningChoice(playerChoiceElement,botChoiceElement);
+                writeResultScreen('crushes','Player');
+                slider.value++;
+            } else {
+                expressDraw(playerChoiceElement,botChoiceElement);
+                writeResultScreen();
+            }
+            break;
+        case 'Paper':
+            if (botChoice === 'Rock') {
+                expressWinningChoice(playerChoiceElement,botChoiceElement);
+                writeResultScreen('wraps','Player');
+                slider.value--;
+            } else if (botChoice === 'Scissors') {
+                expressWinningChoice(botChoiceElement,playerChoiceElement);
+                writeResultScreen('gets cut by','Bot');
+                slider.value--;
+            } else {
+                expressDraw(playerChoiceElement,botChoiceElement);
+                writeResultScreen();
+            }
+            break;
+        case 'Scissors':
+            if (botChoice === 'Paper') {
+                expressWinningChoice(playerChoiceElement,botChoiceElement);
+                writeResultScreen('cut','Player');
+                slider.value--;
+            } else if (botChoice === 'Rock') {
+                expressWinningChoice(botChoiceElement,playerChoiceElement);
+                writeResultScreen('gets crushed by','Bot');
+                slider.value--;
+            } else {
+                expressDraw(playerChoiceElement,botChoiceElement);
+                writeResultScreen();
+            }
+            break;
+    }
+}
+
+function hideBattleText() {
+    document.getElementById('currentRound').classList.add('hide');
+    document.getElementById('vs').classList.add('hide');
 }
 
 function playRound(event) {
     determineBotChoice();
     let playerChoiceID = event.target.id;
-    hideAndDisablePlayerButtons(playerChoiceID);
-    hideBotButtons(`bot${botChoice}`);
-    movePlayerChoice(playerChoiceID);
-    moveBotChoice(`bot${botChoice}`);
-    window.setTimeout(showBotChoice,2000,`bot${botChoice}`);
+    let playerChoiceElement = event.target;
+    let botChoiceID = `bot${botChoice}`;
+    let botChoiceElement = document.getElementById(botChoiceID);
+    hideAndDisablePlayerButtons(playerChoiceID,playerChoiceElement);
+    hideBotButtons(botChoiceID);
+    movePlayerChoice(playerChoiceID, playerChoiceElement);
+    moveBotChoice(botChoiceID,botChoiceElement);
+    window.setTimeout(showBotChoice,2000,botChoiceElement);
+    window.setTimeout(determineWinner , 2000 , playerChoiceElement , botChoiceElement);
+    window.setTimeout(hideBattleText , 2000);
+    window.setTimeout(showRoundResult , 2000);
 }
 
 let buttonRock = document.getElementById('playerRock');
