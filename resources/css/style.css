@@ -122,6 +122,7 @@ input[type="range"]::-moz-range-progress {
 
 .text {
     text-align:center;
+    width:311px;
 }
 
 #currentRound {
@@ -133,10 +134,14 @@ input[type="range"]::-moz-range-progress {
 }
 
 .roundResultScreen {
-    margin-top: 120px;
+    margin-top: 205px;
     opacity: 0;
     transform: scale(0);
     transition: 2s ease opacity, 2s transform;
+}
+
+.roundWinner {
+    margin-top: 50px;
 }
 
 .choices {
@@ -149,14 +154,14 @@ input[type="range"]::-moz-range-progress {
 
 .playerChoice {
     margin-left: 106px;
-    width: 310px;
+    width: 20.5%;
     display: flex;
     justify-content: space-between;
 }
 
 .botChoice {
     margin-right: 106px;
-    width: 20%;
+    width: 20.5%;
     display: flex;
     justify-content: space-between;
 }
@@ -173,6 +178,11 @@ input[type="range"]::-moz-range-progress {
 button {
     width: 100px;
     height: 40px;
+    font-size: 20px;
+}
+
+#startButton {
+    width:auto;
 }
 
 #playerRock,#playerPaper,#playerScissors,#botRock,#botPaper,#botScissors {
