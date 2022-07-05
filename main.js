@@ -176,7 +176,7 @@ function determineWinner(playerChoiceElement, botChoiceElement) {
                 slider.value--;
             } else if (botChoice === 'Rock') {
                 expressWinningChoice(botChoiceElement,playerChoiceElement);
-                writeResultScreen('gets crushed by','Bot');
+                writeResultScreen('get crushed by','Bot');
                 slider.value--;
             } else {
                 expressDraw(playerChoiceElement,botChoiceElement);
@@ -190,6 +190,8 @@ function hideBattleText() {
     document.getElementById('currentRound').classList.add('hide');
     document.getElementById('vs').classList.add('hide');
 }
+
+
 
 function playRound(event) {
     determineBotChoice();
@@ -223,7 +225,3 @@ function showRoundResult() {
         roundResultScreen.style.transform = 'scale(1)';
     },0);
 }
-
-/*
-button.addEventListener('click',showRoundResult);
-*/
