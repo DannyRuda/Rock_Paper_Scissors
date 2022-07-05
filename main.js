@@ -30,6 +30,7 @@ function hideStartScreen() {
 
 buttonStart.addEventListener('click',showBattleScreen);
 buttonStart.addEventListener('click',hideStartScreen);
+buttonStart.addEventListener('click',()=>{slider.value = 2});
 
 const botChoices = ['Rock','Paper','Scissors'];
 let botChoice = '';
@@ -136,21 +137,23 @@ function hideAndDisablePlayerButtons(choiceID, choiceElement) {
                 break;
         };
     } else {
-        choiceElement.style.pointerEvents = 'auto';
-        switch (choiceID) {
-            case 'playerRock':
-                document.querySelector('#playerPaper').style.visibility = 'visible';
-                document.querySelector('#playerScissors').style.visibility = 'visible';
-                break;
-            case 'playerPaper':
-                document.querySelector('#playerRock').style.visibility = 'visible';
-                document.querySelector('#playerScissors').style.visibility = 'visible';
-                break;
-            case 'playerScissors':
-                document.querySelector('#playerPaper').style.visibility = 'visible';
-                document.querySelector('#playerRock').style.visibility = 'visible';
-                break;
-        };
+        window.setTimeout(()=>{
+            choiceElement.style.pointerEvents = 'auto';
+            switch (choiceID) {
+                case 'playerRock':
+                    document.querySelector('#playerPaper').style.visibility = 'visible';
+                    document.querySelector('#playerScissors').style.visibility = 'visible';
+                    break;
+                case 'playerPaper':
+                    document.querySelector('#playerRock').style.visibility = 'visible';
+                    document.querySelector('#playerScissors').style.visibility = 'visible';
+                    break;
+                case 'playerScissors':
+                    document.querySelector('#playerPaper').style.visibility = 'visible';
+                    document.querySelector('#playerRock').style.visibility = 'visible';
+                    break;
+            }
+        },1000);
     }
 }
 
@@ -171,20 +174,22 @@ function hideBotButtons(choiceID,choiceElement) {
                 break;
         };
     } else {
-        switch (choiceID) {
-            case 'botRock':
-                document.querySelector('#botPaper').style.visibility = 'visible';
-                document.querySelector('#botScissors').style.visibility = 'visible';
-                break;
-            case 'botPaper':
-                document.querySelector('#botRock').style.visibility = 'visible';
-                document.querySelector('#botScissors').style.visibility = 'visible';
-                break;
-            case 'botScissors':
-                document.querySelector('#botPaper').style.visibility = 'visible';
-                document.querySelector('#botRock').style.visibility = 'visible';
-                break;
-        };
+        window.setTimeout(()=>{
+            switch (choiceID) {
+                case 'botRock':
+                    document.querySelector('#botPaper').style.visibility = 'visible';
+                    document.querySelector('#botScissors').style.visibility = 'visible';
+                    break;
+                case 'botPaper':
+                    document.querySelector('#botRock').style.visibility = 'visible';
+                    document.querySelector('#botScissors').style.visibility = 'visible';
+                    break;
+                case 'botScissors':
+                    document.querySelector('#botPaper').style.visibility = 'visible';
+                    document.querySelector('#botRock').style.visibility = 'visible';
+                    break;
+            };
+        },1000)
     }
 }
 
@@ -211,7 +216,7 @@ function writeResultScreen(phrase,winner) {
         document.querySelector('.roundWinner').innerText = 'Draw!';
     }
 }
-
+let roundCounter = 1;
 function determineWinner(playerChoiceElement, botChoiceElement) {
     switch (playerChoiceElement.innerText) {
         case 'Rock':
@@ -232,7 +237,7 @@ function determineWinner(playerChoiceElement, botChoiceElement) {
             if (botChoice === 'Rock') {
                 expressWinningChoice(playerChoiceElement,botChoiceElement);
                 writeResultScreen('wraps','Player');
-                slider.value--;
+                slider.value++;
             } else if (botChoice === 'Scissors') {
                 expressWinningChoice(botChoiceElement,playerChoiceElement);
                 writeResultScreen('gets cut by','Bot');
@@ -246,7 +251,7 @@ function determineWinner(playerChoiceElement, botChoiceElement) {
             if (botChoice === 'Paper') {
                 expressWinningChoice(playerChoiceElement,botChoiceElement);
                 writeResultScreen('cut','Player');
-                slider.value--;
+                slider.value++;
             } else if (botChoice === 'Rock') {
                 expressWinningChoice(botChoiceElement,playerChoiceElement);
                 writeResultScreen('get crushed by','Bot');
@@ -259,9 +264,10 @@ function determineWinner(playerChoiceElement, botChoiceElement) {
     }
 }
 
-function hideBattleText() {
-    document.getElementById('currentRound').classList.add('hide');
-    document.getElementById('vs').classList.add('hide');
+function toggleBattleText() {
+    let currentRound = document.getElementById('currentRound');
+    currentRound.classList.toggle('hide') ? currentRound.innerText = `Round ${roundCounter}` : true;
+    document.getElementById('vs').classList.toggle('hide');
 }
 
 function resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement) {
@@ -275,6 +281,7 @@ function resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceEl
 }
 
 function playRound(event) {
+    roundCounter++;
     determineBotChoice();
     let playerChoiceID = event.target.id;
     let playerChoiceElement = event.target;
@@ -284,11 +291,33 @@ function playRound(event) {
     hideBotButtons(botChoiceID,botChoiceElement);
     movePlayerChoice(playerChoiceID, playerChoiceElement);
     moveBotChoice(botChoiceID,botChoiceElement);
-    window.setTimeout(toggleBotChoiceText,2000,botChoiceElement);
-    window.setTimeout(determineWinner , 2000 , playerChoiceElement , botChoiceElement);
-    window.setTimeout(hideBattleText , 2000);
-    window.setTimeout(showRoundResult , 2000);
-    window.setTimeout(resetButtons,3500,playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement);
+    window.setTimeout(() => {
+        toggleBotChoiceText(botChoiceElement);
+        determineWinner(playerChoiceElement,botChoiceElement);
+        toggleBattleText();
+        toggleRoundResult();
+        if(slider.value < 4 && slider.value > 0) {
+            window.setTimeout(resetButtons,1500,playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement);
+            window.setTimeout(toggleRoundResult , 3000);
+            window.setTimeout(toggleBattleText , 3000);
+        } else {
+            window.setTimeout(() => {
+                activeEndScreen();
+                playerChoiceElement.style.visibility = 'hidden';
+                botChoiceElement.style.visibility = 'hidden';
+                toggleRoundResult();
+            },1500);
+        }
+    }, 2000)
+}
+
+function activeEndScreen() {
+    if(slider.value === 4) {
+        document.getElementById('gameWinner').innerText = 'Player wins the Game!';
+    } else {
+        document.getElementById('gameWinner').innerText = 'Bot wins the Game!';
+    };
+    document.getElementById('gameResultScreen').classList.toggle('hide')
 }
 
 let buttonRock = document.getElementById('playerRock');
@@ -299,11 +328,17 @@ buttonRock.addEventListener('click',playRound);
 buttonPaper.addEventListener('click',playRound);
 buttonScissors.addEventListener('click',playRound);
 
-function showRoundResult() {
+function toggleRoundResult() {
     let roundResultScreen = document.querySelector('.roundResultScreen');
-    roundResultScreen.classList.remove('hide');
-    window.setTimeout(function(){
-        roundResultScreen.style.opacity = 1;
-        roundResultScreen.style.transform = 'scale(1)';
-    },0);
+    if (roundResultScreen.classList.contains('hide')) {
+        roundResultScreen.classList.toggle('hide');
+        window.setTimeout(() => {
+            roundResultScreen.style.opacity = 1;
+            roundResultScreen.style.transform = 'scale(1)';
+        });
+    } else {
+        roundResultScreen.classList.toggle('hide');
+        roundResultScreen.style.opacity = 0;
+        roundResultScreen.style.transform = 'scale(0)';
+    }
 }
