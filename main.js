@@ -39,82 +39,157 @@ function determineBotChoice() {
 };
 
 function movePlayerChoice(choiceID,choiceElement) {
-    switch (choiceID) {
-        case 'playerRock' :
-            choiceElement.style.left = '380px';
-            choiceElement.style.bottom = '180px';
-            break;
-        case 'playerPaper' :
-            choiceElement.style.left = '275px';
-            choiceElement.style.bottom = '180px';
-            break;
-        case 'playerScissors' :
-            choiceElement.style.left = '170px';
-            choiceElement.style.bottom = '180px';
-            break;
-        default:
-            break;
-    };
+    if (getComputedStyle(choiceElement).bottom === '0px') {
+        choiceElement.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out 0.5s';
+        switch (choiceID) {
+            case 'playerRock' :
+                choiceElement.style.left = '380px';
+                choiceElement.style.bottom = '180px';
+                break;
+            case 'playerPaper' :
+                choiceElement.style.left = '275px';
+                choiceElement.style.bottom = '180px';
+                break;
+            case 'playerScissors' :
+                choiceElement.style.left = '170px';
+                choiceElement.style.bottom = '180px';
+                break;
+            default:
+                break;
+        };
+    } else {
+        choiceElement.style.transition = 'left 1s ease-in-out 0.5s, bottom 1s ease-in-out';
+        switch (choiceID) {
+            case 'playerRock' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'playerPaper' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'playerScissors' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            default:
+                break;
+        };
+    }
 }
 
 function moveBotChoice(choiceID,choiceElement) {
-    switch (choiceID) {
-        case 'botScissors' :
-            choiceElement.style.left = '-380px';
-            choiceElement.style.bottom = '180px';
-            break;
-        case 'botPaper' :
-            choiceElement.style.left = '-275px';
-            choiceElement.style.bottom = '180px';
-            break;
-        case 'botRock' :
-            choiceElement.style.left = '-170px';
-            choiceElement.style.bottom = '180px';
-            break;
-        default:
-            break;
-    };
+    if (getComputedStyle(choiceElement).bottom === '0px') {
+        choiceElement.style.transition = 'left 1s ease-in-out, bottom 1s ease-in-out 0.5s';
+        switch (choiceID) {
+            case 'botScissors' :
+                choiceElement.style.left = '-380px';
+                choiceElement.style.bottom = '180px';
+                break;
+            case 'botPaper' :
+                choiceElement.style.left = '-275px';
+                choiceElement.style.bottom = '180px';
+                break;
+            case 'botRock' :
+                choiceElement.style.left = '-170px';
+                choiceElement.style.bottom = '180px';
+                break;
+            default:
+                break;
+        };
+    } else {
+        choiceElement.style.transition = 'left 1s ease-in-out 0.5s, bottom 1s ease-in-out';
+        switch (choiceID) {
+            case 'botScissors' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'botPaper' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'botRock' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            default:
+                break;
+        };
+    }
 }
 
 function hideAndDisablePlayerButtons(choiceID, choiceElement) {
-    switch (choiceID) {
-        case 'playerRock':
-            choiceElement.style.pointerEvents = 'none';
-            document.querySelector('#playerPaper').style.visibility = 'hidden';
-            document.querySelector('#playerScissors').style.visibility = 'hidden';
-            break;
-        case 'playerPaper':
-            choiceElement.style.pointerEvents = 'none';
-            document.querySelector('#playerRock').style.visibility = 'hidden';
-            document.querySelector('#playerScissors').style.visibility = 'hidden';
-            break;
-        case 'playerScissors':
-            choiceElement.style.pointerEvents = 'none';
-            document.querySelector('#playerPaper').style.visibility = 'hidden';
-            document.querySelector('#playerRock').style.visibility = 'hidden';
-            break;
-    };
+    if (getComputedStyle(choiceElement).pointerEvents === 'auto') {
+        choiceElement.style.pointerEvents = 'none';
+        switch (choiceID) {
+            case 'playerRock':
+                document.querySelector('#playerPaper').style.visibility = 'hidden';
+                document.querySelector('#playerScissors').style.visibility = 'hidden';
+                break;
+            case 'playerPaper':
+                document.querySelector('#playerRock').style.visibility = 'hidden';
+                document.querySelector('#playerScissors').style.visibility = 'hidden';
+                break;
+            case 'playerScissors':
+                document.querySelector('#playerPaper').style.visibility = 'hidden';
+                document.querySelector('#playerRock').style.visibility = 'hidden';
+                break;
+        };
+    } else {
+        choiceElement.style.pointerEvents = 'auto';
+        switch (choiceID) {
+            case 'playerRock':
+                document.querySelector('#playerPaper').style.visibility = 'visible';
+                document.querySelector('#playerScissors').style.visibility = 'visible';
+                break;
+            case 'playerPaper':
+                document.querySelector('#playerRock').style.visibility = 'visible';
+                document.querySelector('#playerScissors').style.visibility = 'visible';
+                break;
+            case 'playerScissors':
+                document.querySelector('#playerPaper').style.visibility = 'visible';
+                document.querySelector('#playerRock').style.visibility = 'visible';
+                break;
+        };
+    }
 }
 
-function hideBotButtons(choiceID) {
-    switch (choiceID) {
-        case 'botRock':
-            document.querySelector('#botPaper').style.visibility = 'hidden';
-            document.querySelector('#botScissors').style.visibility = 'hidden';
-            break;
-        case 'botPaper':
-            document.querySelector('#botRock').style.visibility = 'hidden';
-            document.querySelector('#botScissors').style.visibility = 'hidden';
-            break;
-        case 'botScissors':
-            document.querySelector('#botPaper').style.visibility = 'hidden';
-            document.querySelector('#botRock').style.visibility = 'hidden';
-            break;
-    };
+function hideBotButtons(choiceID,choiceElement) {
+    if (choiceElement.innerText === '?') {
+        switch (choiceID) {
+            case 'botRock':
+                document.querySelector('#botPaper').style.visibility = 'hidden';
+                document.querySelector('#botScissors').style.visibility = 'hidden';
+                break;
+            case 'botPaper':
+                document.querySelector('#botRock').style.visibility = 'hidden';
+                document.querySelector('#botScissors').style.visibility = 'hidden';
+                break;
+            case 'botScissors':
+                document.querySelector('#botPaper').style.visibility = 'hidden';
+                document.querySelector('#botRock').style.visibility = 'hidden';
+                break;
+        };
+    } else {
+        switch (choiceID) {
+            case 'botRock':
+                document.querySelector('#botPaper').style.visibility = 'visible';
+                document.querySelector('#botScissors').style.visibility = 'visible';
+                break;
+            case 'botPaper':
+                document.querySelector('#botRock').style.visibility = 'visible';
+                document.querySelector('#botScissors').style.visibility = 'visible';
+                break;
+            case 'botScissors':
+                document.querySelector('#botPaper').style.visibility = 'visible';
+                document.querySelector('#botRock').style.visibility = 'visible';
+                break;
+        };
+    }
 }
 
-function showBotChoice(choiceElement) {
-    choiceElement.innerText = botChoice;
+function toggleBotChoiceText(choiceElement) {
+    choiceElement.innerText === botChoice ? choiceElement.innerText = '?' : choiceElement.innerText = botChoice;
 }
 
 function expressWinningChoice(winningChoice,loosingChoice) {
@@ -128,12 +203,10 @@ function expressDraw(playerChoiceElement,botChoiceElement) {
 }
 
 function writeResultScreen(phrase,winner) {
-    console.log(typeof phrase);
     if (typeof phrase !== 'undefined') {
         document.querySelector('.roundResultPhrase').innerText = phrase;
         document.querySelector('.roundWinner').innerText = `${winner} wins the Round`;
     } else {
-        console.log('enters else statement')
         document.querySelector('.roundResultPhrase').innerText = `draws with`;
         document.querySelector('.roundWinner').innerText = 'Draw!';
     }
@@ -191,7 +264,15 @@ function hideBattleText() {
     document.getElementById('vs').classList.add('hide');
 }
 
-
+function resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement) {
+    movePlayerChoice(playerChoiceID,playerChoiceElement);
+    moveBotChoice(botChoiceID,botChoiceElement);
+    hideAndDisablePlayerButtons(playerChoiceID,playerChoiceElement);
+    hideBotButtons(botChoiceID , botChoiceElement);
+    toggleBotChoiceText(botChoiceElement);
+    playerChoiceElement.style.backgroundColor = '';
+    botChoiceElement.style.backgroundColor = '';
+}
 
 function playRound(event) {
     determineBotChoice();
@@ -200,13 +281,14 @@ function playRound(event) {
     let botChoiceID = `bot${botChoice}`;
     let botChoiceElement = document.getElementById(botChoiceID);
     hideAndDisablePlayerButtons(playerChoiceID,playerChoiceElement);
-    hideBotButtons(botChoiceID);
+    hideBotButtons(botChoiceID,botChoiceElement);
     movePlayerChoice(playerChoiceID, playerChoiceElement);
     moveBotChoice(botChoiceID,botChoiceElement);
-    window.setTimeout(showBotChoice,2000,botChoiceElement);
+    window.setTimeout(toggleBotChoiceText,2000,botChoiceElement);
     window.setTimeout(determineWinner , 2000 , playerChoiceElement , botChoiceElement);
     window.setTimeout(hideBattleText , 2000);
     window.setTimeout(showRoundResult , 2000);
+    window.setTimeout(resetButtons,3500,playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement);
 }
 
 let buttonRock = document.getElementById('playerRock');
