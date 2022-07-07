@@ -58,7 +58,7 @@ function movePlayerChoice(choiceID,choiceElement) {
             default:
                 break;
         };
-    } else {
+    } else if (roundCounter > 1) {
         choiceElement.style.transition = 'left 1s ease-in-out 0.5s, bottom 1s ease-in-out';
         switch (choiceID) {
             case 'playerRock' :
@@ -76,7 +76,25 @@ function movePlayerChoice(choiceID,choiceElement) {
             default:
                 break;
         };
-    }
+    } else {
+        choiceElement.style.transition = 'left 0s, bottom 0s';
+        switch (choiceID) {
+            case 'playerRock' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'playerPaper' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'playerScissors' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            default:
+                break;
+        };
+    };
 }
 
 function moveBotChoice(choiceID,choiceElement) {
@@ -98,8 +116,26 @@ function moveBotChoice(choiceID,choiceElement) {
             default:
                 break;
         };
-    } else {
+    } else if (roundCounter > 1) {
         choiceElement.style.transition = 'left 1s ease-in-out 0.5s, bottom 1s ease-in-out';
+        switch (choiceID) {
+            case 'botScissors' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'botPaper' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            case 'botRock' :
+                choiceElement.style.left = '0';
+                choiceElement.style.bottom = '0';
+                break;
+            default:
+                break;
+        };
+    } else {
+        choiceElement.style.transition = 'left 0s, bottom 0s';
         switch (choiceID) {
             case 'botScissors' :
                 choiceElement.style.left = '0';
@@ -119,7 +155,7 @@ function moveBotChoice(choiceID,choiceElement) {
     }
 }
 
-function hideAndDisablePlayerButtons(choiceID, choiceElement) {
+function togglePlayerButtons(choiceID, choiceElement) {
     if (getComputedStyle(choiceElement).pointerEvents === 'auto') {
         choiceElement.style.pointerEvents = 'none';
         switch (choiceID) {
@@ -136,7 +172,7 @@ function hideAndDisablePlayerButtons(choiceID, choiceElement) {
                 document.querySelector('#playerRock').style.visibility = 'hidden';
                 break;
         };
-    } else {
+    } else if (roundCounter > 1) {
         window.setTimeout(()=>{
             choiceElement.style.pointerEvents = 'auto';
             switch (choiceID) {
@@ -153,11 +189,26 @@ function hideAndDisablePlayerButtons(choiceID, choiceElement) {
                     document.querySelector('#playerRock').style.visibility = 'visible';
                     break;
             }
-        },1000);
-    }
+        },1500);
+    } else {
+        switch (choiceID) {
+            case 'playerRock':
+                document.querySelector('#playerPaper').style.visibility = 'visible';
+                document.querySelector('#playerScissors').style.visibility = 'visible';
+                break;
+            case 'playerPaper':
+                document.querySelector('#playerRock').style.visibility = 'visible';
+                document.querySelector('#playerScissors').style.visibility = 'visible';
+                break;
+            case 'playerScissors':
+                document.querySelector('#playerPaper').style.visibility = 'visible';
+                document.querySelector('#playerRock').style.visibility = 'visible';
+                break;
+        };
+    };
 }
 
-function hideBotButtons(choiceID,choiceElement) {
+function toggleBotButtons(choiceID,choiceElement) {
     if (choiceElement.innerText === '?') {
         switch (choiceID) {
             case 'botRock':
@@ -173,7 +224,7 @@ function hideBotButtons(choiceID,choiceElement) {
                 document.querySelector('#botRock').style.visibility = 'hidden';
                 break;
         };
-    } else {
+    } else if (roundCounter > 1){
         window.setTimeout(()=>{
             switch (choiceID) {
                 case 'botRock':
@@ -189,12 +240,27 @@ function hideBotButtons(choiceID,choiceElement) {
                     document.querySelector('#botRock').style.visibility = 'visible';
                     break;
             };
-        },1000)
-    }
+        },1500);
+    } else {
+        switch (choiceID) {
+            case 'botRock':
+                document.querySelector('#botPaper').style.visibility = 'visible';
+                document.querySelector('#botScissors').style.visibility = 'visible';
+                break;
+            case 'botPaper':
+                document.querySelector('#botRock').style.visibility = 'visible';
+                document.querySelector('#botScissors').style.visibility = 'visible';
+                break;
+            case 'botScissors':
+                document.querySelector('#botPaper').style.visibility = 'visible';
+                document.querySelector('#botRock').style.visibility = 'visible';
+                break;
+        };
+    };
 }
 
 function toggleBotChoiceText(choiceElement) {
-    choiceElement.innerText === botChoice ? choiceElement.innerText = '?' : choiceElement.innerText = botChoice;
+    choiceElement.innerText === '?' ? choiceElement.innerText = botChoice : choiceElement.innerText = '?';
 }
 
 function expressWinningChoice(winningChoice,loosingChoice) {
@@ -266,20 +332,37 @@ function determineWinner(playerChoiceElement, botChoiceElement) {
 
 function toggleBattleText() {
     let currentRound = document.getElementById('currentRound');
-    currentRound.classList.toggle('hide') ? currentRound.innerText = `Round ${roundCounter}` : true;
-    document.getElementById('vs').classList.toggle('hide');
+    let vs = document.getElementById('vs');
+    if(!currentRound.classList.toggle('hide')) {
+        vs.classList.toggle('hide');
+        window.setTimeout(()=>{
+            currentRound.style.opacity = '1';
+            currentRound.style.transform = 'scale(1)';
+            vs.style.opacity = '1';
+            vs.style.transform = 'scale(1)';
+        },0);
+    } else {
+        vs.classList.toggle('hide');
+        currentRound.style.opacity = '0';
+        currentRound.style.transform = 'scale(0)';
+        vs.style.opacity = '0';
+        vs.style.transform = 'scale(0)';
+    };
+    currentRound.innerText = `Round ${roundCounter}`;
 }
 
 function resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement) {
     movePlayerChoice(playerChoiceID,playerChoiceElement);
     moveBotChoice(botChoiceID,botChoiceElement);
-    hideAndDisablePlayerButtons(playerChoiceID,playerChoiceElement);
-    hideBotButtons(botChoiceID , botChoiceElement);
+    togglePlayerButtons(playerChoiceID,playerChoiceElement);
+    toggleBotButtons(botChoiceID , botChoiceElement);
     toggleBotChoiceText(botChoiceElement);
     playerChoiceElement.style.backgroundColor = '';
     botChoiceElement.style.backgroundColor = '';
 }
 
+let lastPlayerChoiceElement = '';
+let lastBotChoiceElement = '';
 function playRound(event) {
     roundCounter++;
     determineBotChoice();
@@ -287,8 +370,10 @@ function playRound(event) {
     let playerChoiceElement = event.target;
     let botChoiceID = `bot${botChoice}`;
     let botChoiceElement = document.getElementById(botChoiceID);
-    hideAndDisablePlayerButtons(playerChoiceID,playerChoiceElement);
-    hideBotButtons(botChoiceID,botChoiceElement);
+    lastPlayerChoiceElement = playerChoiceElement;
+    lastBotChoiceElement = botChoiceElement;
+    togglePlayerButtons(playerChoiceID,playerChoiceElement);
+    toggleBotButtons(botChoiceID,botChoiceElement);
     movePlayerChoice(playerChoiceID, playerChoiceElement);
     moveBotChoice(botChoiceID,botChoiceElement);
     window.setTimeout(() => {
@@ -302,7 +387,7 @@ function playRound(event) {
             window.setTimeout(toggleBattleText , 3000);
         } else {
             window.setTimeout(() => {
-                activeEndScreen();
+                toggleEndScreen();
                 playerChoiceElement.style.visibility = 'hidden';
                 botChoiceElement.style.visibility = 'hidden';
                 toggleRoundResult();
@@ -311,8 +396,8 @@ function playRound(event) {
     }, 2000)
 }
 
-function activeEndScreen() {
-    if(slider.value === 4) {
+function toggleEndScreen() {
+    if(slider.value >= 4) {
         document.getElementById('gameWinner').innerText = 'Player wins the Game!';
     } else {
         document.getElementById('gameWinner').innerText = 'Bot wins the Game!';
@@ -342,3 +427,23 @@ function toggleRoundResult() {
         roundResultScreen.style.transform = 'scale(0)';
     }
 }
+
+function resetGame() {
+    roundCounter = 1;
+    slider.value = 2;
+    let playerChoiceElement = lastPlayerChoiceElement;
+    let botChoiceElement = lastBotChoiceElement; 
+    let playerChoiceID = playerChoiceElement.id;
+    let botChoiceID = `bot${botChoice}`;
+    botChoiceElement.style.visibility = 'visible';
+    resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceElement);
+    window.setTimeout(() => {
+        playerChoiceElement.style.visibility = 'visible';
+        botChoiceElement.style.visibility = 'visible';
+    },0);
+    toggleEndScreen();
+    toggleBattleText();
+};
+
+let buttonNewGame = document.getElementById('newGame');
+buttonNewGame.addEventListener('click',resetGame);
