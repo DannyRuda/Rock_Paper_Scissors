@@ -364,6 +364,7 @@ function resetButtons(playerChoiceID,playerChoiceElement,botChoiceID,botChoiceEl
 let lastPlayerChoiceElement = '';
 let lastBotChoiceElement = '';
 function playRound(event) {
+    let sliderStartValue = slider.value;
     roundCounter++;
     determineBotChoice();
     let playerChoiceID = event.target.id;
@@ -379,6 +380,7 @@ function playRound(event) {
     window.setTimeout(() => {
         toggleBotChoiceText(botChoiceElement);
         determineWinner(playerChoiceElement,botChoiceElement);
+        createAndAddRoundtoHistory(playerChoiceElement,botChoiceElement,sliderStartValue);
         toggleBattleText();
         toggleRoundResult();
         if(slider.value < 4 && slider.value > 0) {
@@ -447,3 +449,36 @@ function resetGame() {
 
 let buttonNewGame = document.getElementById('newGame');
 buttonNewGame.addEventListener('click',resetGame);
+
+function createAndAddRoundtoHistory(playerChoiceElement,botChoiceElement,sliderStartValue) {
+    let historyPlayerChoice = document.createElement('li');
+    historyPlayerChoice.classList.add('playerHistory');
+    historyPlayerChoice.innerText = `${playerChoiceElement.innerText} `;
+
+    let historyBotChoice = document.createElement('li');
+    historyBotChoice.classList.add('botHistory');
+    historyBotChoice.innerText = botChoiceElement.innerText;
+
+    let listOfChoices = document.createElement('ul');
+    listOfChoices.append(historyPlayerChoice,historyBotChoice);
+
+    let choices = document.createElement('div');
+    choices.classList.add('choices');
+    choices.appendChild(listOfChoices);
+
+    let roundHeader = document.createElement('p');
+    roundHeader.innerText = `Round ${roundCounter-1}`;
+    
+    let historyRoundWinner = document.createElement('p');
+    if(sliderStartValue !== slider.value) {
+        historyRoundWinner.innerText = slider.value > sliderStartValue ? 'Player Won' : 'Bot Won';
+    } else {
+        historyRoundWinner.innerText = 'Draw';
+    }
+
+    let round = document.createElement('div');
+    round.classList.add('round');
+    round.append(roundHeader,choices,historyRoundWinner);
+
+    document.querySelector('.history').appendChild(round);
+}
