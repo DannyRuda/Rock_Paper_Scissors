@@ -341,7 +341,7 @@ function toggleBattleText() {
             currentRound.style.transform = 'scale(1)';
             vs.style.opacity = '1';
             vs.style.transform = 'scale(1)';
-        },0);
+        },10);
     } else {
         vs.classList.toggle('hide');
         currentRound.style.opacity = '0';
