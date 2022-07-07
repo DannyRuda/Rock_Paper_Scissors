@@ -191,6 +191,7 @@ function togglePlayerButtons(choiceID, choiceElement) {
             }
         },1500);
     } else {
+        choiceElement.style.pointerEvents = 'auto';
         switch (choiceID) {
             case 'playerRock':
                 document.querySelector('#playerPaper').style.visibility = 'visible';
@@ -433,6 +434,7 @@ function toggleRoundResult() {
 function resetGame() {
     roundCounter = 1;
     slider.value = 2;
+    resetHistory();
     let playerChoiceElement = lastPlayerChoiceElement;
     let botChoiceElement = lastBotChoiceElement; 
     let playerChoiceID = playerChoiceElement.id;
@@ -481,4 +483,9 @@ function createAndAddRoundtoHistory(playerChoiceElement,botChoiceElement,sliderS
     round.append(roundHeader,choices,historyRoundWinner);
 
     document.querySelector('.history').appendChild(round);
+}
+
+function resetHistory() {
+    document.querySelector('.history').textContent = '';
+    console.log(document.querySelector('.history').textContent);
 }
