@@ -210,11 +210,22 @@ button {
 
 .history {
     display:flex;
-    flex-wrap: wrap;
     width:90%;
     margin:auto;
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 3px solid rgba(255,255,255);
+    border-radius: 15px;
+    -ms-overflow-style: none;  /* Disable scrollbar for IE and Edge */
+    scrollbar-width: none;  /* Disable scrollbar for Firefox */
+    overflow:auto;
+    padding:10px 0px;
+    scroll-behavior: smooth;
+    scroll-snap-type: inline mandatory;
 }
+
+/*Disable scrollbar for webkit based browsers*/
+.history::-webkit-scrollbar {
+    display: none;
+  }
 
 li {
     display:inline;color:white;
@@ -228,7 +239,12 @@ ul {
 .round {
     width: 10%;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.5);
+    border: 2px solid rgba(255,255,255,0.5);
+    flex-shrink: 0;
+    margin: 2px 5px;
+    border-radius: 15px;
+    scroll-snap-align:start;
+    scroll-padding-inline: 10px;
 }
 
 #botRock,#botPaper,#botScissors,input {

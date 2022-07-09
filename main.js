@@ -452,6 +452,8 @@ function resetGame() {
 let buttonNewGame = document.getElementById('newGame');
 buttonNewGame.addEventListener('click',resetGame);
 
+
+let history = document.querySelector('.history');
 function createAndAddRoundtoHistory(playerChoiceElement,botChoiceElement,sliderStartValue) {
     let historyPlayerChoice = document.createElement('li');
     historyPlayerChoice.classList.add('playerHistory');
@@ -472,20 +474,48 @@ function createAndAddRoundtoHistory(playerChoiceElement,botChoiceElement,sliderS
     roundHeader.innerText = `Round ${roundCounter-1}`;
     
     let historyRoundWinner = document.createElement('p');
-    if(sliderStartValue !== slider.value) {
-        historyRoundWinner.innerText = slider.value > sliderStartValue ? 'Player Won' : 'Bot Won';
-    } else {
-        historyRoundWinner.innerText = 'Draw';
-    }
 
     let round = document.createElement('div');
     round.classList.add('round');
     round.append(roundHeader,choices,historyRoundWinner);
+    if(sliderStartValue !== slider.value) {
+        historyRoundWinner.innerText = slider.value > sliderStartValue ? 'Player Won' : 'Bot Won';
+        round.style.borderColor = slider.value > sliderStartValue ? '#3d79fa' : '#e01515';
+    } else {
+        historyRoundWinner.innerText = 'Draw';
+        round.style.borderColor = 'lightgrey';
+    }
 
-    document.querySelector('.history').appendChild(round);
+    history.appendChild(round);
 }
 
 function resetHistory() {
-    document.querySelector('.history').textContent = '';
-    console.log(document.querySelector('.history').textContent);
+    history.textContent = '';
 }
+
+let newScrollLeft = 0;
+function scrollWithWheel(event) {
+    history.scrollLeft += event.deltaY;
+}
+
+history.addEventListener('wheel',scrollWithWheel);
+
+function scrollWithClickAndDrag(event) {
+    if(mouseisdown===true){
+        history.scrollLeft -= event.movementX;
+    }
+}
+
+let mouseisdown
+history.addEventListener('mousedown',()=>{
+    mouseisdown=true;
+    history.style.scrollBehavior = 'auto';
+    history.style.scrollSnapType = 'none';
+});
+history.addEventListener('mouseup',()=>{
+    mouseisdown=false;
+    history.style.scrollBehavior = 'smooth';
+    history.style.scrollSnapType = 'inline mandatory'
+})
+history.addEventListener('mousemove',scrollWithClickAndDrag);
+
