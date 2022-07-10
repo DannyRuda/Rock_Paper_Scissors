@@ -218,8 +218,16 @@ button {
     scrollbar-width: none;  /* Disable scrollbar for Firefox */
     overflow:auto;
     padding:10px 0px;
-    scroll-behavior: smooth;
     scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 10px;
+}
+
+.history :hover {
+    cursor: pointer;
+}
+
+.history :active {
+    cursor: grab;
 }
 
 /*Disable scrollbar for webkit based browsers*/
@@ -244,9 +252,20 @@ ul {
     margin: 2px 5px;
     border-radius: 15px;
     scroll-snap-align:start;
-    scroll-padding-inline: 10px;
 }
 
 #botRock,#botPaper,#botScissors,input {
     pointer-events: none;
+}
+
+#autofillHistory{
+    width:auto;
+    margin:30px auto;
+    display:block;
+}
+
+#deleteAutofilledRounds {
+    width:auto;
+    margin:30px auto;
+    display:block;
 }

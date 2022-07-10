@@ -493,12 +493,38 @@ function resetHistory() {
     history.textContent = '';
 }
 
-let newScrollLeft = 0;
+
 function scrollWithWheel(event) {
     history.scrollLeft += event.deltaY;
 }
 
-history.addEventListener('wheel',scrollWithWheel);
+//function gets called by event handler function and executes the in the event handler specified callback function 15 times
+function setIntervalX(callback, delay, repetitions) {
+    var x = 0;
+    history.style.scrollSnapType = 'none';
+    history.style.scrollBehavior = 'auto';
+    var intervalID = window.setInterval(function () {
+       
+       callback();
+       
+       if(x === repetitions-2) {
+        history.style.scrollBehavior = 'smooth';
+        history.style.scrollSnapType = 'inline mandatory';
+       }
+
+       if (++x === repetitions) {
+           window.clearInterval(intervalID);
+       }
+    }, delay);
+}
+
+// setIntervalX gets called and each interval sets the scrollLeft value += a portion of the scolled amount. Thats why setIntervalX has to deactivate scrollBehavior and scrollSnaptype
+// at the start since otherwhise after each little change of scrollLeft, the scrollsnap would make it snap back to the start position 
+history.addEventListener('wheel',(event)=>{
+    setIntervalX(()=>{
+        document.querySelector('.history').scrollLeft += (event.deltaY)/14;
+    },1,15);
+});
 
 function scrollWithClickAndDrag(event) {
     if(mouseisdown===true){
@@ -519,3 +545,60 @@ history.addEventListener('mouseup',()=>{
 })
 history.addEventListener('mousemove',scrollWithClickAndDrag);
 
+let buttonAutofillHistory = document.getElementById('autofillHistory');
+buttonAutofillHistory.addEventListener('click',()=>{
+    let playerArray = ['Rock','Paper','Scissors'];
+    let botArray = ['Paper','Rock','Scissors'];
+    let savedRoundCounter = roundCounter
+    for (let i = 0; i< 20; i++) {
+        roundCounter++;
+        let randomNumber = Math.floor(Math.random()*3);
+        autofillHistory(playerArray,botArray,randomNumber);
+    }
+    roundCounter = savedRoundCounter;
+})
+
+function autofillHistory(playerArray,botArray,randomNumber) {
+    let historyPlayerChoice = document.createElement('li');
+    historyPlayerChoice.classList.add('playerHistory');
+    historyPlayerChoice.innerText = `${playerArray[randomNumber]} `;
+
+    let historyBotChoice = document.createElement('li');
+    historyBotChoice.classList.add('botHistory');
+    historyBotChoice.innerText = botArray[randomNumber];
+
+    let listOfChoices = document.createElement('ul');
+    listOfChoices.append(historyPlayerChoice,historyBotChoice);
+
+    let choices = document.createElement('div');
+    choices.classList.add('choices');
+    choices.appendChild(listOfChoices);
+
+    let roundHeader = document.createElement('p');
+    roundHeader.innerText = `Round ${roundCounter-1}`;
+    
+    let historyRoundWinner = document.createElement('p');
+
+    let round = document.createElement('div');
+    round.classList.add('round');
+    round.classList.add('autofilledRounds')
+    round.append(roundHeader,choices,historyRoundWinner);
+    if(randomNumber > 0) {
+        historyRoundWinner.innerText = randomNumber===1 ? 'Player Won' : 'Draw';
+        round.style.borderColor = randomNumber===1 ? '#3d79fa' : 'lightgrey';
+    } else {
+        historyRoundWinner.innerText = 'Bot won';
+        round.style.borderColor = '#e01515';
+    }
+
+    history.appendChild(round);
+}
+
+let buttonDeleteAutofilled = document.getElementById('deleteAutofilledRounds');
+buttonDeleteAutofilled.addEventListener('click',deleteAutofilledRounds);
+function deleteAutofilledRounds() {
+    let filledRounds = document.getElementsByClassName('autofilledRounds');
+    while(filledRounds.length > 0) {
+        filledRounds[0].parentNode.removeChild(filledRounds[0]);
+    }
+}
